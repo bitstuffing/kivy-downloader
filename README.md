@@ -46,4 +46,4 @@ Some screenshot of the first commit:
  
  ![screenshot5](https://4.bp.blogspot.com/-3R3MBDFlCl0/Vvz-6PC2MwI/AAAAAAAAASc/WbbhmMxVK7EgZsYiEmrJhwu9k593bKXlA/s1600/Captura%2Bde%2Bpantalla%2Bde%2B2016-03-31%2B12-40-49.png)
  
-The GUI design are inside downloader.kv file. 
+The GUI designs are inside downloader.kv file. 
