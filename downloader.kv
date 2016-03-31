@@ -1,0 +1,245 @@
+#------------------------------------------------------------
+# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+#------------------------------------------------------------
+
+<Footer@BoxLayout>:
+    canvas.before:
+        Color:
+            rgb: 0.14, 0.24, 0.31
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    orientation: "horizontal"
+    padding: ["20dp","10dp","20dp","10dp"]
+    size_hint_y: None
+    height: "60dp"
+    spacing: "200dp"
+
+<FooterButton@Button>:
+    background_normal: ""
+    background_color: [0.23, 0.23, 0.65, 1]
+
+<StartScreen>:
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgb: 0.31, 0.37, 0.42
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: "vertical"
+
+        Label:
+            canvas.before:
+                Color:
+                    rgb: 0.14, 0.24, 0.31
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            text: "Downloader"
+            text_size: self.size
+            size_hint_y: None
+            height: "40dp"
+            halign: "center"
+            valign: "middle"
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: ["20dp","15dp","20dp","15dp"]
+
+            Label:
+                text: ""
+
+            BoxLayout:
+                orientation: "horizontal"
+
+                Label:
+                    text: "Url to be decoded"
+                    text_size: self.size
+                    size_hint_y: None
+                    height: "40dp"
+
+                Bubble
+                    arrow_pos: "bottom_mid"
+                    size_hint_y: None
+                    height: "50dp"
+                    size_hint_x: None
+                    width: "100dp"
+
+                    BubbleButton:
+                        text: 'Paste'
+                        on_release:
+                            from kivy.core.clipboard import Clipboard
+                            page_url.text = Clipboard.paste()
+
+            Label:
+                text: ""
+                size_hint_y: None
+                height: "10dp"
+
+            TextInput:
+                text: ""
+                id: page_url
+                multiline: False
+                size_hint_y: None
+                height: "35dp"
+
+            Label:
+                text: ""
+                size_hint_y: None
+                height: "10dp"
+
+            Label:
+                text: "Destination path..."
+                text_size: self.size
+                size_hint_y: None
+                height: "40dp"
+
+            Label:
+                text: ""
+                size_hint_y: None
+                height: "10dp"
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: "35dp"
+
+                TextInput:
+                    text: ""
+                    id: target_folder
+                    multiline: False
+                    size_hint_y: None
+                    height: "35dp"
+
+                Label:
+                    text: ""
+                    size_hint_x: None
+                    width: "10dp"
+
+                Button:
+                    text: "..."
+                    on_release: app.target_selection()
+                    size_hint_x: None
+                    width: "80dp"
+                    size_hint_y: None
+                    height: "35dp"
+                    background_normal: ""
+                    background_color: [0.23, 0.23, 0.65, 1]
+
+            Label:
+                text: ""
+
+        Footer:
+
+            FooterButton:
+                text: "Previous"
+                opacity: 0
+
+            FooterButton:
+                text: "Next"
+                on_release: app.url_ready(page_url.text)
+
+<DownloadScreen>:
+    text_message: "loading..."
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgb: 0.31, 0.37, 0.42
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: "vertical"
+
+        Label:
+            canvas.before:
+                Color:
+                    rgb: 0.14, 0.24, 0.31
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            text: "Downloading..."
+            text_size: self.size
+            size_hint_y: None
+            height: "40dp"
+            halign: "center"
+            valign: "middle"
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: ["10dp","10dp","10dp","10dp"]
+
+            Image:
+                id: loading
+                opacity: 0
+                source: "data/loader.gif"
+
+            Label:
+                id: label_text_message
+                text: root.text_message
+
+            ProgressBar:
+                id: progress_bar_download
+                value: 0
+                max: 1000
+
+        Footer:
+
+            FooterButton:
+                text: "Previous"
+                on_release: app.abort_download()
+
+            FooterButton:
+                text: "Next"
+                opacity: 0
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            dirselect: True
+
+        BoxLayout:
+            size_hint_y: None
+            height: "30dp"
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Choose"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<MessageDialog>:
+    orientation: "vertical"
+    padding: ["10dp","10dp","10dp","10dp"]
+
+    Label:
+        id: message_body
+        text_size: self.size
+        halign: "center"
+        valign: "middle"
+
+    Label:
+        text: ""
+        size_hint_y: None
+        height: "10dp"
+
+    Button:
+        text: "Ok"
+        on_release: app.dismiss_popup()
+        size_hint_y: None
+        height: "30dp"
+        background_normal: ""
+        background_color: [0.23, 0.64, 0.30, 1]
