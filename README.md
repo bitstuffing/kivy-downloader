@@ -34,7 +34,7 @@ Also there is a file (buildozer.spec) which is the configuration used to test th
 
 *buildozer android deploy run logcat*
 
-If you have an Android terminal/VM connected you will see it working, if not you can get in from *bin* folder
+If you have an Android terminal/VM connected you will see it working, if not you can get the .apk from *bin* folder
 
 Some screenshot of the first commit:
  
